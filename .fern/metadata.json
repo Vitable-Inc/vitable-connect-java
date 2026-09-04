@@ -1,0 +1,16 @@
+{
+  "cliVersion": "5.112.1",
+  "generatorName": "fernapi/fern-java-sdk",
+  "generatorVersion": "4.19.2",
+  "generatorConfig": {
+    "client-class-name": "VitableConnect",
+    "package-prefix": "com.vitablehealth.connect",
+    "offset-semantics": "page-index"
+  },
+  "originGitCommit": "9883b780cb77955fe0b132581a17e7aed1235fbc",
+  "originGitCommitIsDirty": false,
+  "invokedBy": "ci",
+  "requestedVersion": "1.0.0",
+  "ciProvider": "github",
+  "sdkVersion": "1.0.0"
+}
