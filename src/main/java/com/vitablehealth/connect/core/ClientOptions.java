@@ -47,10 +47,10 @@ public final class ClientOptions {
         this.headers.putAll(headers);
         this.headers.putAll(new HashMap<String, String>() {
             {
-                put("User-Agent", "com.vitablehealth.vitable-connect/1.0.0");
+                put("User-Agent", "com.vitablehealth.vitable-connect/1.0.1");
                 put("X-Fern-Language", "JAVA");
                 put("X-Fern-SDK-Name", "com.vitablehealth:vitable-connect");
-                put("X-Fern-SDK-Version", "1.0.0");
+                put("X-Fern-SDK-Version", "1.0.1");
             }
         });
         this.headerSuppliers = headerSuppliers;

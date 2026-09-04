@@ -57,7 +57,7 @@ java {
 
 group = 'com.vitablehealth'
 
-version = '1.0.0'
+version = '1.0.1'
 
 jar {
     dependsOn(":generatePomFileForMavenPublication")
@@ -88,7 +88,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.vitablehealth'
             artifactId = 'vitable-connect'
-            version = '1.0.0'
+            version = '1.0.1'
             from components.java
             pom {
                 name = 'vitable'
