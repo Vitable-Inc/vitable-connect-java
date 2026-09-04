@@ -1,0 +1,3 @@
+rootProject.name = 'vitable-connect'
+
+include 'sample-app'
