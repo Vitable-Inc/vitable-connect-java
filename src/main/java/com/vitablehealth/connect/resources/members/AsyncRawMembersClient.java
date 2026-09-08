@@ -103,6 +103,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -239,6 +243,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -375,6 +383,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -512,6 +524,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -649,6 +665,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -786,6 +806,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -940,6 +964,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1106,6 +1134,10 @@ public class AsyncRawMembersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {

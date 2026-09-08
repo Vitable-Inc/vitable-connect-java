@@ -18,6 +18,7 @@ import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYea
 import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYearsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployeesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployersRequest;
+import com.vitablehealth.connect.resources.employers.requests.ListHrisProvidersEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListInvoicesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListPayrollDeductionStatementsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.SubmitPayrollAccessSetupRequest;
@@ -572,5 +573,21 @@ public class AsyncEmployersClient {
      */
     public CompletableFuture<OrganizationHrisProvidersResponse> listHrisProviders(RequestOptions requestOptions) {
         return this.rawClient.listHrisProviders(requestOptions).thenApply(response -> response.body());
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public CompletableFuture<OrganizationHrisProvidersResponse> listHrisProviders(
+            ListHrisProvidersEmployersRequest request) {
+        return this.rawClient.listHrisProviders(request).thenApply(response -> response.body());
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public CompletableFuture<OrganizationHrisProvidersResponse> listHrisProviders(
+            ListHrisProvidersEmployersRequest request, RequestOptions requestOptions) {
+        return this.rawClient.listHrisProviders(request, requestOptions).thenApply(response -> response.body());
     }
 }

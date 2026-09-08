@@ -5,31 +5,56 @@ package com.vitablehealth.connect.resources.employers.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.vitablehealth.connect.core.ObjectMappers;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = EnsurePayrollIntegrationEmailEmployersRequest.Builder.class)
 public final class EnsurePayrollIntegrationEmailEmployersRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Map<String, Object> additionalProperties;
 
-    private EnsurePayrollIntegrationEmailEmployersRequest(Map<String, Object> additionalProperties) {
+    private EnsurePayrollIntegrationEmailEmployersRequest(
+            Optional<String> vitableOrganization, Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof EnsurePayrollIntegrationEmailEmployersRequest;
+        return other instanceof EnsurePayrollIntegrationEmailEmployersRequest
+                && equalTo((EnsurePayrollIntegrationEmailEmployersRequest) other);
     }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
         return this.additionalProperties;
+    }
+
+    private boolean equalTo(EnsurePayrollIntegrationEmailEmployersRequest other) {
+        return vitableOrganization.equals(other.vitableOrganization);
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+        return Objects.hash(this.vitableOrganization);
     }
 
     @java.lang.Override
@@ -43,17 +68,33 @@ public final class EnsurePayrollIntegrationEmailEmployersRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
         public Builder from(EnsurePayrollIntegrationEmailEmployersRequest other) {
+            vitableOrganization(other.getVitableOrganization());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
         public EnsurePayrollIntegrationEmailEmployersRequest build() {
-            return new EnsurePayrollIntegrationEmailEmployersRequest(additionalProperties);
+            return new EnsurePayrollIntegrationEmailEmployersRequest(vitableOrganization, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

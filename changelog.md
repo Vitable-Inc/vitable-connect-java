@@ -1,3 +1,13 @@
+## 2.1.0 - 2026-09-08
+### Breaking Changes
+* **`RuntimeException` thrown on serialization errors** — employer client methods (`EmployersClient`, `RawEmployersClient`, `AsyncRawEmployersClient`) now throw `RuntimeException` instead of `VitableConnectException` for serialization failures; update catch sites accordingly.
+### Added
+* **`vitableOrganization`** — all request types across the employers, members, and enrollments APIs now expose a `getVitableOrganization()` accessor and `vitableOrganization(String)` / `vitableOrganization(Optional<String>)` builder methods, forwarding the `X-Vitable-Organization` header to scope requests to a specific organization.
+* **`ListHrisProvidersEmployersRequest`** — new request type for the HRIS/payroll providers endpoint, with optional `vitableOrganization` support for per-request organization scoping.
+* **`EmployersClient.listHrisProviders(ListHrisProvidersEmployersRequest)`** — new sync and async overloads (including `RequestOptions` variants) on `EmployersClient`, `RawEmployersClient`, and `AsyncRawEmployersClient` for retrieving distinct HRIS providers.
+### Changed
+* **`AsyncOrganizationsClient.create()` / `AsyncRawOrganizationsClient.create()`** — Javadoc updated to reflect that a user may now hold multiple organizations and selects the active one via the `X-Vitable-Organization` header, replacing the previous single-organization restriction note.
+
 ## 2.0.0 - 2026-09-08
 ### Breaking Changes
 * **`Operation`** has been renamed to **`GroupMemberSyncFailureOperation`**. Replace all usages of `Operation` with `GroupMemberSyncFailureOperation`, including imports, variable declarations, and references to the static constants `Operation.ADD` and `Operation.REMOVE`.

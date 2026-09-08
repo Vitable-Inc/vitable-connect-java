@@ -23,6 +23,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListInvoicesEmployersRequest.Builder.class)
 public final class ListInvoicesEmployersRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Optional<Integer> limit;
 
     private final Optional<String> offset;
@@ -30,10 +32,22 @@ public final class ListInvoicesEmployersRequest {
     private final Map<String, Object> additionalProperties;
 
     private ListInvoicesEmployersRequest(
-            Optional<Integer> limit, Optional<String> offset, Map<String, Object> additionalProperties) {
+            Optional<String> vitableOrganization,
+            Optional<Integer> limit,
+            Optional<String> offset,
+            Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.limit = limit;
         this.offset = offset;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -73,12 +87,14 @@ public final class ListInvoicesEmployersRequest {
     }
 
     private boolean equalTo(ListInvoicesEmployersRequest other) {
-        return limit.equals(other.limit) && offset.equals(other.offset);
+        return vitableOrganization.equals(other.vitableOrganization)
+                && limit.equals(other.limit)
+                && offset.equals(other.offset);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.limit, this.offset);
+        return Objects.hash(this.vitableOrganization, this.limit, this.offset);
     }
 
     @java.lang.Override
@@ -92,6 +108,8 @@ public final class ListInvoicesEmployersRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<Integer> limit = Optional.empty();
 
         private Optional<String> offset = Optional.empty();
@@ -102,8 +120,22 @@ public final class ListInvoicesEmployersRequest {
         private Builder() {}
 
         public Builder from(ListInvoicesEmployersRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             limit(other.getLimit());
             offset(other.getOffset());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -147,7 +179,7 @@ public final class ListInvoicesEmployersRequest {
         }
 
         public ListInvoicesEmployersRequest build() {
-            return new ListInvoicesEmployersRequest(limit, offset, additionalProperties);
+            return new ListInvoicesEmployersRequest(vitableOrganization, limit, offset, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

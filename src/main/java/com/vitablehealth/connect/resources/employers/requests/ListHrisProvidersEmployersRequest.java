@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.vitablehealth.connect.core.ObjectMappers;
 import java.util.HashMap;
@@ -19,24 +16,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
-@JsonDeserialize(builder = ListPayrollDeductionStatementsEmployersRequest.Builder.class)
-public final class ListPayrollDeductionStatementsEmployersRequest {
+@JsonDeserialize(builder = ListHrisProvidersEmployersRequest.Builder.class)
+public final class ListHrisProvidersEmployersRequest {
     private final Optional<String> vitableOrganization;
-
-    private final Optional<Integer> limit;
-
-    private final Optional<Integer> page;
 
     private final Map<String, Object> additionalProperties;
 
-    private ListPayrollDeductionStatementsEmployersRequest(
-            Optional<String> vitableOrganization,
-            Optional<Integer> limit,
-            Optional<Integer> page,
-            Map<String, Object> additionalProperties) {
+    private ListHrisProvidersEmployersRequest(
+            Optional<String> vitableOrganization, Map<String, Object> additionalProperties) {
         this.vitableOrganization = vitableOrganization;
-        this.limit = limit;
-        this.page = page;
         this.additionalProperties = additionalProperties;
     }
 
@@ -48,27 +36,10 @@ public final class ListPayrollDeductionStatementsEmployersRequest {
         return vitableOrganization;
     }
 
-    /**
-     * @return Maximum number of statements per page
-     */
-    @JsonProperty("limit")
-    public Optional<Integer> getLimit() {
-        return limit;
-    }
-
-    /**
-     * @return Page number to retrieve (starts at 1)
-     */
-    @JsonProperty("page")
-    public Optional<Integer> getPage() {
-        return page;
-    }
-
     @java.lang.Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        return other instanceof ListPayrollDeductionStatementsEmployersRequest
-                && equalTo((ListPayrollDeductionStatementsEmployersRequest) other);
+        return other instanceof ListHrisProvidersEmployersRequest && equalTo((ListHrisProvidersEmployersRequest) other);
     }
 
     @JsonAnyGetter
@@ -76,15 +47,13 @@ public final class ListPayrollDeductionStatementsEmployersRequest {
         return this.additionalProperties;
     }
 
-    private boolean equalTo(ListPayrollDeductionStatementsEmployersRequest other) {
-        return vitableOrganization.equals(other.vitableOrganization)
-                && limit.equals(other.limit)
-                && page.equals(other.page);
+    private boolean equalTo(ListHrisProvidersEmployersRequest other) {
+        return vitableOrganization.equals(other.vitableOrganization);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.vitableOrganization, this.limit, this.page);
+        return Objects.hash(this.vitableOrganization);
     }
 
     @java.lang.Override
@@ -100,19 +69,13 @@ public final class ListPayrollDeductionStatementsEmployersRequest {
     public static final class Builder {
         private Optional<String> vitableOrganization = Optional.empty();
 
-        private Optional<Integer> limit = Optional.empty();
-
-        private Optional<Integer> page = Optional.empty();
-
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
 
-        public Builder from(ListPayrollDeductionStatementsEmployersRequest other) {
+        public Builder from(ListHrisProvidersEmployersRequest other) {
             vitableOrganization(other.getVitableOrganization());
-            limit(other.getLimit());
-            page(other.getPage());
             return this;
         }
 
@@ -129,37 +92,8 @@ public final class ListPayrollDeductionStatementsEmployersRequest {
             return this;
         }
 
-        /**
-         * <p>Maximum number of statements per page</p>
-         */
-        @JsonSetter(value = "limit", nulls = Nulls.SKIP)
-        public Builder limit(Optional<Integer> limit) {
-            this.limit = limit;
-            return this;
-        }
-
-        public Builder limit(Integer limit) {
-            this.limit = Optional.ofNullable(limit);
-            return this;
-        }
-
-        /**
-         * <p>Page number to retrieve (starts at 1)</p>
-         */
-        @JsonSetter(value = "page", nulls = Nulls.SKIP)
-        public Builder page(Optional<Integer> page) {
-            this.page = page;
-            return this;
-        }
-
-        public Builder page(Integer page) {
-            this.page = Optional.ofNullable(page);
-            return this;
-        }
-
-        public ListPayrollDeductionStatementsEmployersRequest build() {
-            return new ListPayrollDeductionStatementsEmployersRequest(
-                    vitableOrganization, limit, page, additionalProperties);
+        public ListHrisProvidersEmployersRequest build() {
+            return new ListHrisProvidersEmployersRequest(vitableOrganization, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

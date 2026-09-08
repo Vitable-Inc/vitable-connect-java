@@ -5,6 +5,7 @@ package com.vitablehealth.connect.resources.members.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,6 +22,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListQualifyingLifeEventsMembersRequest.Builder.class)
 public final class ListQualifyingLifeEventsMembersRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Optional<Integer> limit;
 
     private final Optional<Integer> page;
@@ -30,14 +33,24 @@ public final class ListQualifyingLifeEventsMembersRequest {
     private final Map<String, Object> additionalProperties;
 
     private ListQualifyingLifeEventsMembersRequest(
+            Optional<String> vitableOrganization,
             Optional<Integer> limit,
             Optional<Integer> page,
             Optional<Status> status,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.limit = limit;
         this.page = page;
         this.status = status;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -77,12 +90,15 @@ public final class ListQualifyingLifeEventsMembersRequest {
     }
 
     private boolean equalTo(ListQualifyingLifeEventsMembersRequest other) {
-        return limit.equals(other.limit) && page.equals(other.page) && status.equals(other.status);
+        return vitableOrganization.equals(other.vitableOrganization)
+                && limit.equals(other.limit)
+                && page.equals(other.page)
+                && status.equals(other.status);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.limit, this.page, this.status);
+        return Objects.hash(this.vitableOrganization, this.limit, this.page, this.status);
     }
 
     @java.lang.Override
@@ -96,6 +112,8 @@ public final class ListQualifyingLifeEventsMembersRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<Integer> limit = Optional.empty();
 
         private Optional<Integer> page = Optional.empty();
@@ -108,9 +126,23 @@ public final class ListQualifyingLifeEventsMembersRequest {
         private Builder() {}
 
         public Builder from(ListQualifyingLifeEventsMembersRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             limit(other.getLimit());
             page(other.getPage());
             status(other.getStatus());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -157,7 +189,8 @@ public final class ListQualifyingLifeEventsMembersRequest {
         }
 
         public ListQualifyingLifeEventsMembersRequest build() {
-            return new ListQualifyingLifeEventsMembersRequest(limit, page, status, additionalProperties);
+            return new ListQualifyingLifeEventsMembersRequest(
+                    vitableOrganization, limit, page, status, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

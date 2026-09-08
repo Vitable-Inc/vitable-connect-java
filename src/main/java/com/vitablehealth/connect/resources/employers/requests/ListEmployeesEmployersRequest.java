@@ -5,6 +5,7 @@ package com.vitablehealth.connect.resources.employers.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,6 +22,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ListEmployeesEmployersRequest.Builder.class)
 public final class ListEmployeesEmployersRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Optional<EmployeeStatus> employmentStatus;
 
     private final Optional<Integer> limit;
@@ -32,16 +35,26 @@ public final class ListEmployeesEmployersRequest {
     private final Map<String, Object> additionalProperties;
 
     private ListEmployeesEmployersRequest(
+            Optional<String> vitableOrganization,
             Optional<EmployeeStatus> employmentStatus,
             Optional<Integer> limit,
             Optional<Integer> page,
             Optional<String> search,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.employmentStatus = employmentStatus;
         this.limit = limit;
         this.page = page;
         this.search = search;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -88,7 +101,8 @@ public final class ListEmployeesEmployersRequest {
     }
 
     private boolean equalTo(ListEmployeesEmployersRequest other) {
-        return employmentStatus.equals(other.employmentStatus)
+        return vitableOrganization.equals(other.vitableOrganization)
+                && employmentStatus.equals(other.employmentStatus)
                 && limit.equals(other.limit)
                 && page.equals(other.page)
                 && search.equals(other.search);
@@ -96,7 +110,7 @@ public final class ListEmployeesEmployersRequest {
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.employmentStatus, this.limit, this.page, this.search);
+        return Objects.hash(this.vitableOrganization, this.employmentStatus, this.limit, this.page, this.search);
     }
 
     @java.lang.Override
@@ -110,6 +124,8 @@ public final class ListEmployeesEmployersRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<EmployeeStatus> employmentStatus = Optional.empty();
 
         private Optional<Integer> limit = Optional.empty();
@@ -124,10 +140,24 @@ public final class ListEmployeesEmployersRequest {
         private Builder() {}
 
         public Builder from(ListEmployeesEmployersRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             employmentStatus(other.getEmploymentStatus());
             limit(other.getLimit());
             page(other.getPage());
             search(other.getSearch());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -188,7 +218,8 @@ public final class ListEmployeesEmployersRequest {
         }
 
         public ListEmployeesEmployersRequest build() {
-            return new ListEmployeesEmployersRequest(employmentStatus, limit, page, search, additionalProperties);
+            return new ListEmployeesEmployersRequest(
+                    vitableOrganization, employmentStatus, limit, page, search, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

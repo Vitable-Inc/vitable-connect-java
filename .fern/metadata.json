@@ -7,10 +7,10 @@
     "package-prefix": "com.vitablehealth.connect",
     "offset-semantics": "page-index"
   },
-  "originGitCommit": "807d06d32ea058bd87c8a3e6d61c8720c8ab1ca3",
+  "originGitCommit": "bef03772691d90ef2bd02e356723d4d40733ec35",
   "originGitCommitIsDirty": false,
   "invokedBy": "ci",
   "requestedVersion": "AUTO",
   "ciProvider": "github",
-  "sdkVersion": "2.0.0"
+  "sdkVersion": "2.1.0"
 }

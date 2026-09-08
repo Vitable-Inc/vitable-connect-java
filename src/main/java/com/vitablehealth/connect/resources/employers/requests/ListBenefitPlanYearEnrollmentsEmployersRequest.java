@@ -5,6 +5,7 @@ package com.vitablehealth.connect.resources.employers.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,8 @@ import java.util.Optional;
 public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
     private final Optional<List<ElectionStatusItem>> electionStatus;
 
+    private final Optional<String> vitableOrganization;
+
     private final Optional<Integer> limit;
 
     private final Optional<Integer> page;
@@ -35,11 +38,13 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
     private ListBenefitPlanYearEnrollmentsEmployersRequest(
             Optional<List<ElectionStatusItem>> electionStatus,
+            Optional<String> vitableOrganization,
             Optional<Integer> limit,
             Optional<Integer> page,
             Optional<String> search,
             Map<String, Object> additionalProperties) {
         this.electionStatus = electionStatus;
+        this.vitableOrganization = vitableOrganization;
         this.limit = limit;
         this.page = page;
         this.search = search;
@@ -52,6 +57,14 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
     @JsonProperty("election_status")
     public Optional<List<ElectionStatusItem>> getElectionStatus() {
         return electionStatus;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -92,6 +105,7 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
     private boolean equalTo(ListBenefitPlanYearEnrollmentsEmployersRequest other) {
         return electionStatus.equals(other.electionStatus)
+                && vitableOrganization.equals(other.vitableOrganization)
                 && limit.equals(other.limit)
                 && page.equals(other.page)
                 && search.equals(other.search);
@@ -99,7 +113,7 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.electionStatus, this.limit, this.page, this.search);
+        return Objects.hash(this.electionStatus, this.vitableOrganization, this.limit, this.page, this.search);
     }
 
     @java.lang.Override
@@ -115,6 +129,8 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
     public static final class Builder {
         private Optional<List<ElectionStatusItem>> electionStatus = Optional.empty();
 
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<Integer> limit = Optional.empty();
 
         private Optional<Integer> page = Optional.empty();
@@ -128,6 +144,7 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
         public Builder from(ListBenefitPlanYearEnrollmentsEmployersRequest other) {
             electionStatus(other.getElectionStatus());
+            vitableOrganization(other.getVitableOrganization());
             limit(other.getLimit());
             page(other.getPage());
             search(other.getSearch());
@@ -150,6 +167,19 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
         public Builder electionStatus(ElectionStatusItem electionStatus) {
             this.electionStatus = Optional.of(Collections.singletonList(electionStatus));
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -197,7 +227,7 @@ public final class ListBenefitPlanYearEnrollmentsEmployersRequest {
 
         public ListBenefitPlanYearEnrollmentsEmployersRequest build() {
             return new ListBenefitPlanYearEnrollmentsEmployersRequest(
-                    electionStatus, limit, page, search, additionalProperties);
+                    electionStatus, vitableOrganization, limit, page, search, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

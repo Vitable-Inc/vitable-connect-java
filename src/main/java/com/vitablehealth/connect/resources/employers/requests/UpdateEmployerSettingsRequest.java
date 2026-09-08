@@ -5,6 +5,7 @@ package com.vitablehealth.connect.resources.employers.requests;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,18 +16,33 @@ import com.vitablehealth.connect.types.DeductionFrequency;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = UpdateEmployerSettingsRequest.Builder.class)
 public final class UpdateEmployerSettingsRequest {
+    private final Optional<String> vitableOrganization;
+
     private final DeductionFrequency payFrequency;
 
     private final Map<String, Object> additionalProperties;
 
-    private UpdateEmployerSettingsRequest(DeductionFrequency payFrequency, Map<String, Object> additionalProperties) {
+    private UpdateEmployerSettingsRequest(
+            Optional<String> vitableOrganization,
+            DeductionFrequency payFrequency,
+            Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.payFrequency = payFrequency;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     @JsonProperty("pay_frequency")
@@ -46,12 +62,12 @@ public final class UpdateEmployerSettingsRequest {
     }
 
     private boolean equalTo(UpdateEmployerSettingsRequest other) {
-        return payFrequency.equals(other.payFrequency);
+        return vitableOrganization.equals(other.vitableOrganization) && payFrequency.equals(other.payFrequency);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.payFrequency);
+        return Objects.hash(this.vitableOrganization, this.payFrequency);
     }
 
     @java.lang.Override
@@ -75,11 +91,20 @@ public final class UpdateEmployerSettingsRequest {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        _FinalStage vitableOrganization(Optional<String> vitableOrganization);
+
+        _FinalStage vitableOrganization(String vitableOrganization);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder implements PayFrequencyStage, _FinalStage {
         private DeductionFrequency payFrequency;
+
+        private Optional<String> vitableOrganization = Optional.empty();
 
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
@@ -88,6 +113,7 @@ public final class UpdateEmployerSettingsRequest {
 
         @java.lang.Override
         public Builder from(UpdateEmployerSettingsRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             payFrequency(other.getPayFrequency());
             return this;
         }
@@ -99,9 +125,28 @@ public final class UpdateEmployerSettingsRequest {
             return this;
         }
 
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
         @java.lang.Override
         public UpdateEmployerSettingsRequest build() {
-            return new UpdateEmployerSettingsRequest(payFrequency, additionalProperties);
+            return new UpdateEmployerSettingsRequest(vitableOrganization, payFrequency, additionalProperties);
         }
 
         @java.lang.Override

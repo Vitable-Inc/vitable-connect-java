@@ -25,6 +25,8 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = CreateEmployerRequest.Builder.class)
 public final class CreateEmployerRequest {
+    private final Optional<String> vitableOrganization;
+
     private final String name;
 
     private final String legalName;
@@ -42,6 +44,7 @@ public final class CreateEmployerRequest {
     private final Map<String, Object> additionalProperties;
 
     private CreateEmployerRequest(
+            Optional<String> vitableOrganization,
             String name,
             String legalName,
             String ein,
@@ -50,6 +53,7 @@ public final class CreateEmployerRequest {
             Optional<String> phoneNumber,
             Optional<String> referenceId,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.name = name;
         this.legalName = legalName;
         this.ein = ein;
@@ -58,6 +62,14 @@ public final class CreateEmployerRequest {
         this.phoneNumber = phoneNumber;
         this.referenceId = referenceId;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -146,7 +158,8 @@ public final class CreateEmployerRequest {
     }
 
     private boolean equalTo(CreateEmployerRequest other) {
-        return name.equals(other.name)
+        return vitableOrganization.equals(other.vitableOrganization)
+                && name.equals(other.name)
                 && legalName.equals(other.legalName)
                 && ein.equals(other.ein)
                 && email.equals(other.email)
@@ -158,7 +171,14 @@ public final class CreateEmployerRequest {
     @java.lang.Override
     public int hashCode() {
         return Objects.hash(
-                this.name, this.legalName, this.ein, this.email, this.address, this.phoneNumber, this.referenceId);
+                this.vitableOrganization,
+                this.name,
+                this.legalName,
+                this.ein,
+                this.email,
+                this.address,
+                this.phoneNumber,
+                this.referenceId);
     }
 
     @java.lang.Override
@@ -215,6 +235,13 @@ public final class CreateEmployerRequest {
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
 
         /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        _FinalStage vitableOrganization(Optional<String> vitableOrganization);
+
+        _FinalStage vitableOrganization(String vitableOrganization);
+
+        /**
          * <p>Employer phone number (10-digit US format, e.g. 5551234567)</p>
          */
         _FinalStage phoneNumber(Optional<String> phoneNumber);
@@ -250,6 +277,8 @@ public final class CreateEmployerRequest {
 
         private Optional<String> phoneNumber = Optional.empty();
 
+        private Optional<String> vitableOrganization = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -257,6 +286,7 @@ public final class CreateEmployerRequest {
 
         @java.lang.Override
         public Builder from(CreateEmployerRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             name(other.getName());
             legalName(other.getLegalName());
             ein(other.getEin());
@@ -394,10 +424,37 @@ public final class CreateEmployerRequest {
             return this;
         }
 
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
         @java.lang.Override
         public CreateEmployerRequest build() {
             return new CreateEmployerRequest(
-                    name, legalName, ein, email, address, phoneNumber, referenceId, additionalProperties);
+                    vitableOrganization,
+                    name,
+                    legalName,
+                    ein,
+                    email,
+                    address,
+                    phoneNumber,
+                    referenceId,
+                    additionalProperties);
         }
 
         @java.lang.Override

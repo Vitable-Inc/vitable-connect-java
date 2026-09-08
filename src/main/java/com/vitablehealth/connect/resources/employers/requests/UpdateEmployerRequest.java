@@ -24,6 +24,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = UpdateEmployerRequest.Builder.class)
 public final class UpdateEmployerRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Optional<String> name;
 
     private final Optional<String> legalName;
@@ -35,16 +37,26 @@ public final class UpdateEmployerRequest {
     private final Map<String, Object> additionalProperties;
 
     private UpdateEmployerRequest(
+            Optional<String> vitableOrganization,
             Optional<String> name,
             Optional<String> legalName,
             Optional<UpdateEmployerAddressInput> address,
             Optional<Boolean> active,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.name = name;
         this.legalName = legalName;
         this.address = address;
         this.active = active;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -127,7 +139,8 @@ public final class UpdateEmployerRequest {
     }
 
     private boolean equalTo(UpdateEmployerRequest other) {
-        return name.equals(other.name)
+        return vitableOrganization.equals(other.vitableOrganization)
+                && name.equals(other.name)
                 && legalName.equals(other.legalName)
                 && address.equals(other.address)
                 && active.equals(other.active);
@@ -135,7 +148,7 @@ public final class UpdateEmployerRequest {
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.name, this.legalName, this.address, this.active);
+        return Objects.hash(this.vitableOrganization, this.name, this.legalName, this.address, this.active);
     }
 
     @java.lang.Override
@@ -149,6 +162,8 @@ public final class UpdateEmployerRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<String> name = Optional.empty();
 
         private Optional<String> legalName = Optional.empty();
@@ -163,10 +178,24 @@ public final class UpdateEmployerRequest {
         private Builder() {}
 
         public Builder from(UpdateEmployerRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             name(other.getName());
             legalName(other.getLegalName());
             address(other.getAddress());
             active(other.getActive());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -271,7 +300,8 @@ public final class UpdateEmployerRequest {
         }
 
         public UpdateEmployerRequest build() {
-            return new UpdateEmployerRequest(name, legalName, address, active, additionalProperties);
+            return new UpdateEmployerRequest(
+                    vitableOrganization, name, legalName, address, active, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

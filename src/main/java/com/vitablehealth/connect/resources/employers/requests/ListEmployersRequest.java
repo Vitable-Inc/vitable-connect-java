@@ -36,6 +36,8 @@ public final class ListEmployersRequest {
 
     private final Optional<List<HrisStatusItem>> hrisStatus;
 
+    private final Optional<String> vitableOrganization;
+
     private final Optional<Boolean> includeCancelled;
 
     private final Optional<Integer> limit;
@@ -51,6 +53,7 @@ public final class ListEmployersRequest {
             Optional<List<BenefitLifecycleStageItem>> benefitLifecycleStage,
             Optional<List<String>> hrisProvider,
             Optional<List<HrisStatusItem>> hrisStatus,
+            Optional<String> vitableOrganization,
             Optional<Boolean> includeCancelled,
             Optional<Integer> limit,
             Optional<Integer> page,
@@ -60,6 +63,7 @@ public final class ListEmployersRequest {
         this.benefitLifecycleStage = benefitLifecycleStage;
         this.hrisProvider = hrisProvider;
         this.hrisStatus = hrisStatus;
+        this.vitableOrganization = vitableOrganization;
         this.includeCancelled = includeCancelled;
         this.limit = limit;
         this.page = page;
@@ -97,6 +101,14 @@ public final class ListEmployersRequest {
     @JsonProperty("hris_status")
     public Optional<List<HrisStatusItem>> getHrisStatus() {
         return hrisStatus;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -156,6 +168,7 @@ public final class ListEmployersRequest {
                 && benefitLifecycleStage.equals(other.benefitLifecycleStage)
                 && hrisProvider.equals(other.hrisProvider)
                 && hrisStatus.equals(other.hrisStatus)
+                && vitableOrganization.equals(other.vitableOrganization)
                 && includeCancelled.equals(other.includeCancelled)
                 && limit.equals(other.limit)
                 && page.equals(other.page)
@@ -169,6 +182,7 @@ public final class ListEmployersRequest {
                 this.benefitLifecycleStage,
                 this.hrisProvider,
                 this.hrisStatus,
+                this.vitableOrganization,
                 this.includeCancelled,
                 this.limit,
                 this.page,
@@ -194,6 +208,8 @@ public final class ListEmployersRequest {
 
         private Optional<List<HrisStatusItem>> hrisStatus = Optional.empty();
 
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<Boolean> includeCancelled = Optional.empty();
 
         private Optional<Integer> limit = Optional.empty();
@@ -212,6 +228,7 @@ public final class ListEmployersRequest {
             benefitLifecycleStage(other.getBenefitLifecycleStage());
             hrisProvider(other.getHrisProvider());
             hrisStatus(other.getHrisStatus());
+            vitableOrganization(other.getVitableOrganization());
             includeCancelled(other.getIncludeCancelled());
             limit(other.getLimit());
             page(other.getPage());
@@ -296,6 +313,19 @@ public final class ListEmployersRequest {
         }
 
         /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
+            return this;
+        }
+
+        /**
          * <p>Include cancelled employers (hidden by default unless their stage is explicitly requested).</p>
          */
         @JsonSetter(value = "include_cancelled", nulls = Nulls.SKIP)
@@ -368,6 +398,7 @@ public final class ListEmployersRequest {
                     benefitLifecycleStage,
                     hrisProvider,
                     hrisStatus,
+                    vitableOrganization,
                     includeCancelled,
                     limit,
                     page,

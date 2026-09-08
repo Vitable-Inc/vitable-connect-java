@@ -42,14 +42,14 @@ public class AsyncOrganizationsClient {
     }
 
     /**
-     * Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). 409 <code>organization_already_exists</code> when the user already has an organization (v0: one organization per user).
+     * Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). A user may hold several organizations and selects which one a request acts as with the <code>X-Vitable-Organization</code> header. The founder's email domain is claimed only when no other organization holds it, so a taken domain is left with its owner rather than rejected.
      */
     public CompletableFuture<Organization> create(CreateOrganizationRequest request) {
         return this.rawClient.create(request).thenApply(response -> response.body());
     }
 
     /**
-     * Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). 409 <code>organization_already_exists</code> when the user already has an organization (v0: one organization per user).
+     * Onboards the authenticated user's partner Organization: creates the local Organization + the creator's admin membership atomically, then mirrors it to WorkOS (creates the WorkOS org and binds the creator as admin). A user may hold several organizations and selects which one a request acts as with the <code>X-Vitable-Organization</code> header. The founder's email domain is claimed only when no other organization holds it, so a taken domain is left with its owner rather than rejected.
      */
     public CompletableFuture<Organization> create(CreateOrganizationRequest request, RequestOptions requestOptions) {
         return this.rawClient.create(request, requestOptions).thenApply(response -> response.body());

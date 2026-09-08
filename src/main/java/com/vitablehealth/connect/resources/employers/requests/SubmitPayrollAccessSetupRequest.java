@@ -30,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = SubmitPayrollAccessSetupRequest.Builder.class)
 public final class SubmitPayrollAccessSetupRequest {
+    private final Optional<String> vitableOrganization;
+
     private final boolean employeesInPayrollAcknowledged;
 
     private final boolean payrollDataImpactsEligibilityAcknowledged;
@@ -79,6 +81,7 @@ public final class SubmitPayrollAccessSetupRequest {
     private final Map<String, Object> additionalProperties;
 
     private SubmitPayrollAccessSetupRequest(
+            Optional<String> vitableOrganization,
             boolean employeesInPayrollAcknowledged,
             boolean payrollDataImpactsEligibilityAcknowledged,
             boolean classificationsAccurate,
@@ -103,6 +106,7 @@ public final class SubmitPayrollAccessSetupRequest {
             Optional<String> additionalPassword,
             Optional<Boolean> additionalIntegrationConfirmed,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.employeesInPayrollAcknowledged = employeesInPayrollAcknowledged;
         this.payrollDataImpactsEligibilityAcknowledged = payrollDataImpactsEligibilityAcknowledged;
         this.classificationsAccurate = classificationsAccurate;
@@ -127,6 +131,14 @@ public final class SubmitPayrollAccessSetupRequest {
         this.additionalPassword = additionalPassword;
         this.additionalIntegrationConfirmed = additionalIntegrationConfirmed;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -457,7 +469,8 @@ public final class SubmitPayrollAccessSetupRequest {
     }
 
     private boolean equalTo(SubmitPayrollAccessSetupRequest other) {
-        return employeesInPayrollAcknowledged == other.employeesInPayrollAcknowledged
+        return vitableOrganization.equals(other.vitableOrganization)
+                && employeesInPayrollAcknowledged == other.employeesInPayrollAcknowledged
                 && payrollDataImpactsEligibilityAcknowledged == other.payrollDataImpactsEligibilityAcknowledged
                 && classificationsAccurate == other.classificationsAccurate
                 && classificationCorrectionSource.equals(other.classificationCorrectionSource)
@@ -485,6 +498,7 @@ public final class SubmitPayrollAccessSetupRequest {
     @java.lang.Override
     public int hashCode() {
         return Objects.hash(
+                this.vitableOrganization,
                 this.employeesInPayrollAcknowledged,
                 this.payrollDataImpactsEligibilityAcknowledged,
                 this.classificationsAccurate,
@@ -575,6 +589,13 @@ public final class SubmitPayrollAccessSetupRequest {
         _FinalStage additionalProperty(String key, Object value);
 
         _FinalStage additionalProperties(Map<String, Object> additionalProperties);
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        _FinalStage vitableOrganization(Optional<String> vitableOrganization);
+
+        _FinalStage vitableOrganization(String vitableOrganization);
 
         /**
          * <p>Where corrected classifications come from, when <code>classifications_accurate</code> is <code>false</code>.</p>
@@ -777,6 +798,8 @@ public final class SubmitPayrollAccessSetupRequest {
 
         private Optional<ClassificationCorrectionSource> classificationCorrectionSource = Optional.empty();
 
+        private Optional<String> vitableOrganization = Optional.empty();
+
         @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -784,6 +807,7 @@ public final class SubmitPayrollAccessSetupRequest {
 
         @java.lang.Override
         public Builder from(SubmitPayrollAccessSetupRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             employeesInPayrollAcknowledged(other.getEmployeesInPayrollAcknowledged());
             payrollDataImpactsEligibilityAcknowledged(other.getPayrollDataImpactsEligibilityAcknowledged());
             classificationsAccurate(other.getClassificationsAccurate());
@@ -1448,9 +1472,29 @@ public final class SubmitPayrollAccessSetupRequest {
             return this;
         }
 
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         * @return Reference to {@code this} so that method calls can be chained together.
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        @java.lang.Override
+        public _FinalStage vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
         @java.lang.Override
         public SubmitPayrollAccessSetupRequest build() {
             return new SubmitPayrollAccessSetupRequest(
+                    vitableOrganization,
                     employeesInPayrollAcknowledged,
                     payrollDataImpactsEligibilityAcknowledged,
                     classificationsAccurate,

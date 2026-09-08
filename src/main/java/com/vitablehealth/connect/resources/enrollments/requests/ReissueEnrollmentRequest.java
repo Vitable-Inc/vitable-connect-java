@@ -23,6 +23,8 @@ import java.util.Optional;
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = ReissueEnrollmentRequest.Builder.class)
 public final class ReissueEnrollmentRequest {
+    private final Optional<String> vitableOrganization;
+
     private final Optional<String> reason;
 
     private final Optional<String> ticketNumber;
@@ -32,14 +34,24 @@ public final class ReissueEnrollmentRequest {
     private final Map<String, Object> additionalProperties;
 
     private ReissueEnrollmentRequest(
+            Optional<String> vitableOrganization,
             Optional<String> reason,
             Optional<String> ticketNumber,
             Optional<String> qualifyingLifeEventId,
             Map<String, Object> additionalProperties) {
+        this.vitableOrganization = vitableOrganization;
         this.reason = reason;
         this.ticketNumber = ticketNumber;
         this.qualifyingLifeEventId = qualifyingLifeEventId;
         this.additionalProperties = additionalProperties;
+    }
+
+    /**
+     * @return Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.
+     */
+    @JsonIgnore
+    public Optional<String> getVitableOrganization() {
+        return vitableOrganization;
     }
 
     /**
@@ -105,14 +117,15 @@ public final class ReissueEnrollmentRequest {
     }
 
     private boolean equalTo(ReissueEnrollmentRequest other) {
-        return reason.equals(other.reason)
+        return vitableOrganization.equals(other.vitableOrganization)
+                && reason.equals(other.reason)
                 && ticketNumber.equals(other.ticketNumber)
                 && qualifyingLifeEventId.equals(other.qualifyingLifeEventId);
     }
 
     @java.lang.Override
     public int hashCode() {
-        return Objects.hash(this.reason, this.ticketNumber, this.qualifyingLifeEventId);
+        return Objects.hash(this.vitableOrganization, this.reason, this.ticketNumber, this.qualifyingLifeEventId);
     }
 
     @java.lang.Override
@@ -126,6 +139,8 @@ public final class ReissueEnrollmentRequest {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder {
+        private Optional<String> vitableOrganization = Optional.empty();
+
         private Optional<String> reason = Optional.empty();
 
         private Optional<String> ticketNumber = Optional.empty();
@@ -138,9 +153,23 @@ public final class ReissueEnrollmentRequest {
         private Builder() {}
 
         public Builder from(ReissueEnrollmentRequest other) {
+            vitableOrganization(other.getVitableOrganization());
             reason(other.getReason());
             ticketNumber(other.getTicketNumber());
             qualifyingLifeEventId(other.getQualifyingLifeEventId());
+            return this;
+        }
+
+        /**
+         * <p>Organization to act as for this request (e.g. <code>org_SGVsbG8gV29ybGQ</code>). Optional when your credentials reach a single organization. Required when they reach several — omitting it then returns 400 <code>organization_required</code>. A malformed value returns 400 <code>invalid_organization_header</code>, and naming an organization you do not have access to returns 403 <code>organization_access_denied</code>.</p>
+         */
+        public Builder vitableOrganization(Optional<String> vitableOrganization) {
+            this.vitableOrganization = vitableOrganization;
+            return this;
+        }
+
+        public Builder vitableOrganization(String vitableOrganization) {
+            this.vitableOrganization = Optional.ofNullable(vitableOrganization);
             return this;
         }
 
@@ -220,7 +249,8 @@ public final class ReissueEnrollmentRequest {
         }
 
         public ReissueEnrollmentRequest build() {
-            return new ReissueEnrollmentRequest(reason, ticketNumber, qualifyingLifeEventId, additionalProperties);
+            return new ReissueEnrollmentRequest(
+                    vitableOrganization, reason, ticketNumber, qualifyingLifeEventId, additionalProperties);
         }
 
         public Builder additionalProperty(String key, Object value) {

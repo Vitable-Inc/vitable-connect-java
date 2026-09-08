@@ -35,6 +35,7 @@ import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYea
 import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYearsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployeesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployersRequest;
+import com.vitablehealth.connect.resources.employers.requests.ListHrisProvidersEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListInvoicesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListPayrollDeductionStatementsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.SubmitPayrollAccessSetupRequest;
@@ -158,6 +159,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -294,16 +299,20 @@ public class AsyncRawEmployersClient {
         try {
             body = RequestBody.create(
                     ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
-        } catch (JsonProcessingException e) {
-            throw new VitableConnectException("Failed to serialize request", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        Request okhttpRequest = new Request.Builder()
+        Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
                 .method("POST", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build();
+                .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
+        Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
@@ -443,6 +452,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -577,16 +590,20 @@ public class AsyncRawEmployersClient {
         try {
             body = RequestBody.create(
                     ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
-        } catch (JsonProcessingException e) {
-            throw new VitableConnectException("Failed to serialize request", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        Request okhttpRequest = new Request.Builder()
+        Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
                 .method("PUT", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build();
+                .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
+        Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
@@ -730,6 +747,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -880,6 +901,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1051,6 +1076,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1354,6 +1383,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1513,6 +1546,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1657,6 +1694,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1804,6 +1845,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -1944,6 +1989,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -2066,16 +2115,20 @@ public class AsyncRawEmployersClient {
         try {
             body = RequestBody.create(
                     ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
-        } catch (JsonProcessingException e) {
-            throw new VitableConnectException("Failed to serialize request", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        Request okhttpRequest = new Request.Builder()
+        Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
                 .method("PUT", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build();
+                .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
+        Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
@@ -2230,6 +2283,10 @@ public class AsyncRawEmployersClient {
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -2398,6 +2455,10 @@ public class AsyncRawEmployersClient {
                 .method("PUT", RequestBody.create("", null))
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
         Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
@@ -2520,16 +2581,20 @@ public class AsyncRawEmployersClient {
         try {
             body = RequestBody.create(
                     ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
-        } catch (JsonProcessingException e) {
-            throw new VitableConnectException("Failed to serialize request", e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        Request okhttpRequest = new Request.Builder()
+        Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
                 .method("PUT", body)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Accept", "application/json")
-                .build();
+                .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
+        Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);
@@ -2626,7 +2691,7 @@ public class AsyncRawEmployersClient {
      * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
      */
     public CompletableFuture<VitableConnectHttpResponse<OrganizationHrisProvidersResponse>> listHrisProviders() {
-        return listHrisProviders(null);
+        return listHrisProviders(ListHrisProvidersEmployersRequest.builder().build());
     }
 
     /**
@@ -2634,6 +2699,22 @@ public class AsyncRawEmployersClient {
      */
     public CompletableFuture<VitableConnectHttpResponse<OrganizationHrisProvidersResponse>> listHrisProviders(
             RequestOptions requestOptions) {
+        return listHrisProviders(ListHrisProvidersEmployersRequest.builder().build(), requestOptions);
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public CompletableFuture<VitableConnectHttpResponse<OrganizationHrisProvidersResponse>> listHrisProviders(
+            ListHrisProvidersEmployersRequest request) {
+        return listHrisProviders(request, null);
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public CompletableFuture<VitableConnectHttpResponse<OrganizationHrisProvidersResponse>> listHrisProviders(
+            ListHrisProvidersEmployersRequest request, RequestOptions requestOptions) {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("v1/employers/hris-providers");
@@ -2642,12 +2723,16 @@ public class AsyncRawEmployersClient {
                 httpUrl.addQueryParameter(_key, _value);
             });
         }
-        Request okhttpRequest = new Request.Builder()
+        Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
                 .method("GET", null)
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
-                .addHeader("Accept", "application/json")
-                .build();
+                .addHeader("Accept", "application/json");
+        if (request.getVitableOrganization().isPresent()) {
+            _requestBuilder.addHeader(
+                    "X-Vitable-Organization", request.getVitableOrganization().get());
+        }
+        Request okhttpRequest = _requestBuilder.build();
         OkHttpClient client = clientOptions.httpClient();
         if (requestOptions != null && requestOptions.getTimeout().isPresent()) {
             client = clientOptions.httpClientWithTimeout(requestOptions);

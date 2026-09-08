@@ -18,6 +18,7 @@ import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYea
 import com.vitablehealth.connect.resources.employers.requests.ListBenefitPlanYearsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployeesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListEmployersRequest;
+import com.vitablehealth.connect.resources.employers.requests.ListHrisProvidersEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListInvoicesEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.ListPayrollDeductionStatementsEmployersRequest;
 import com.vitablehealth.connect.resources.employers.requests.SubmitPayrollAccessSetupRequest;
@@ -559,5 +560,20 @@ public class EmployersClient {
      */
     public OrganizationHrisProvidersResponse listHrisProviders(RequestOptions requestOptions) {
         return this.rawClient.listHrisProviders(requestOptions).body();
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public OrganizationHrisProvidersResponse listHrisProviders(ListHrisProvidersEmployersRequest request) {
+        return this.rawClient.listHrisProviders(request).body();
+    }
+
+    /**
+     * Returns the distinct HRIS/payroll providers across the same book <code>GET /v1/employers</code> returns, sorted for display. Use these as the values for the employers list's <code>hris_provider</code> filter — filter on <code>provider</code>, show <code>provider_label</code>. The stored providers are free text, so they cannot be enumerated in advance.
+     */
+    public OrganizationHrisProvidersResponse listHrisProviders(
+            ListHrisProvidersEmployersRequest request, RequestOptions requestOptions) {
+        return this.rawClient.listHrisProviders(request, requestOptions).body();
     }
 }
