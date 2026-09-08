@@ -21,14 +21,17 @@ import org.jetbrains.annotations.NotNull;
 public final class GroupMemberSyncFailure {
     private final String referenceId;
 
-    private final Operation operation;
+    private final GroupMemberSyncFailureOperation operation;
 
     private final String reason;
 
     private final Map<String, Object> additionalProperties;
 
     private GroupMemberSyncFailure(
-            String referenceId, Operation operation, String reason, Map<String, Object> additionalProperties) {
+            String referenceId,
+            GroupMemberSyncFailureOperation operation,
+            String reason,
+            Map<String, Object> additionalProperties) {
         this.referenceId = referenceId;
         this.operation = operation;
         this.reason = reason;
@@ -47,7 +50,7 @@ public final class GroupMemberSyncFailure {
      * @return The sync operation that failed for this member.
      */
     @JsonProperty("operation")
-    public Operation getOperation() {
+    public GroupMemberSyncFailureOperation getOperation() {
         return operation;
     }
 
@@ -103,7 +106,7 @@ public final class GroupMemberSyncFailure {
         /**
          * <p>The sync operation that failed for this member.</p>
          */
-        ReasonStage operation(@NotNull Operation operation);
+        ReasonStage operation(@NotNull GroupMemberSyncFailureOperation operation);
     }
 
     public interface ReasonStage {
@@ -125,7 +128,7 @@ public final class GroupMemberSyncFailure {
     public static final class Builder implements ReferenceIdStage, OperationStage, ReasonStage, _FinalStage {
         private String referenceId;
 
-        private Operation operation;
+        private GroupMemberSyncFailureOperation operation;
 
         private String reason;
 
@@ -159,7 +162,7 @@ public final class GroupMemberSyncFailure {
          */
         @java.lang.Override
         @JsonSetter("operation")
-        public ReasonStage operation(@NotNull Operation operation) {
+        public ReasonStage operation(@NotNull GroupMemberSyncFailureOperation operation) {
             this.operation = Objects.requireNonNull(operation, "operation must not be null");
             return this;
         }

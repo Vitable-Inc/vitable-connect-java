@@ -29,7 +29,7 @@ Add the dependency in your `build.gradle` file:
 
 ```groovy
 dependencies {
-  implementation 'com.vitablehealth:vitable-connect:1.0.1'
+  implementation 'com.vitablehealth:vitable-connect:2.0.0'
 }
 ```
 
@@ -41,7 +41,7 @@ Add the dependency in your `pom.xml` file:
 <dependency>
   <groupId>com.vitablehealth</groupId>
   <artifactId>vitable-connect</artifactId>
-  <version>1.0.1</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 

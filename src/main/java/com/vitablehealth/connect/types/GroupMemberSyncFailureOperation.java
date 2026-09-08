@@ -6,16 +6,17 @@ package com.vitablehealth.connect.types;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public final class Operation {
-    public static final Operation ADD = new Operation(Value.ADD, "add");
+public final class GroupMemberSyncFailureOperation {
+    public static final GroupMemberSyncFailureOperation ADD = new GroupMemberSyncFailureOperation(Value.ADD, "add");
 
-    public static final Operation REMOVE = new Operation(Value.REMOVE, "remove");
+    public static final GroupMemberSyncFailureOperation REMOVE =
+            new GroupMemberSyncFailureOperation(Value.REMOVE, "remove");
 
     private final Value value;
 
     private final String string;
 
-    Operation(Value value, String string) {
+    GroupMemberSyncFailureOperation(Value value, String string) {
         this.value = value;
         this.string = string;
     }
@@ -32,7 +33,9 @@ public final class Operation {
 
     @java.lang.Override
     public boolean equals(Object other) {
-        return (this == other) || (other instanceof Operation && this.string.equals(((Operation) other).string));
+        return (this == other)
+                || (other instanceof GroupMemberSyncFailureOperation
+                        && this.string.equals(((GroupMemberSyncFailureOperation) other).string));
     }
 
     @java.lang.Override
@@ -53,14 +56,14 @@ public final class Operation {
     }
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)
-    public static Operation valueOf(String value) {
+    public static GroupMemberSyncFailureOperation valueOf(String value) {
         switch (value) {
             case "add":
                 return ADD;
             case "remove":
                 return REMOVE;
             default:
-                return new Operation(Value.UNKNOWN, value);
+                return new GroupMemberSyncFailureOperation(Value.UNKNOWN, value);
         }
     }
 
