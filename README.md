@@ -1,5 +1,27 @@
 # Vitable Connect Java Library
 
+> [!WARNING]
+> **This SDK is no longer maintained.** As of September 2026, Vitable has
+> discontinued the Java SDK. No further releases, bug fixes, or security
+> patches will be published, and this repository is archived.
+>
+> Existing versions remain available on
+> [Maven Central](https://central.sonatype.com/artifact/com.vitablehealth/vitable-connect)
+> and will continue to work against the Vitable Connect API, but the library
+> will drift out of sync as the API evolves.
+>
+> **Recommended paths forward:**
+>
+> - Use one of the supported SDKs:
+>   [TypeScript](https://github.com/Vitable-Inc/vitable-connect-typescript),
+>   [Python](https://github.com/Vitable-Inc/vitable-connect-python), or
+>   [Ruby](https://github.com/Vitable-Inc/vitable-connect-ruby)
+> - Or call the REST API directly — see the
+>   [API reference](https://developer.vitablehealth.com/api)
+>
+> Questions? Reach out to your Vitable contact or email
+> [support@vitablehealth.com](mailto:support@vitablehealth.com).
+
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2FVitable-Inc%2Fvitable-connect-java)
 [![Maven Central](https://img.shields.io/maven-central/v/com.vitablehealth/vitable-connect)](https://central.sonatype.com/artifact/com.vitablehealth/vitable-connect)
 
